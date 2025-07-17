@@ -1,0 +1,14 @@
+{
+	"block.patternconverter.converter": "Pattern Converter",
+	"item.patternconverter.converter": "Pattern Converter",
+	"container.patternconverter.converter": "Pattern Converter",
+
+	"patternconverter.pattern_mode.keep_original": "Keeping original pattern",
+	"patternconverter.pattern_mode.clear_original": "Original pattern will be cleared",
+
+	"patternconverter.redstone_mode.ignore_power": "Ignore nearby redstone signals",
+	"patternconverter.redstone_mode.stop_on_power": "Prevent running with a nearby redstone signal",
+	"patternconverter.redstone_mode.require_power": "Only run with a nearby redstone signal",
+	"patternconverter.redstone_mode.redstone_active": "Current Status: Enabled",
+	"patternconverter.redstone_mode.redstone_inactive": "Current Status: Disabled"
+}

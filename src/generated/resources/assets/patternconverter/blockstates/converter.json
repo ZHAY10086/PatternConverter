@@ -1,0 +1,73 @@
+{
+  "variants": {
+    "facing=down,style=ae2": {
+      "model": "patternconverter:block/converter_ae2",
+      "x": 90
+    },
+    "facing=down,style=integrateddynamics": {
+      "model": "patternconverter:block/converter_integrated_dynamics",
+      "x": 90
+    },
+    "facing=down,style=refinedstorage": {
+      "model": "patternconverter:block/converter_refined_storage",
+      "x": 90
+    },
+    "facing=east,style=ae2": {
+      "model": "patternconverter:block/converter_ae2",
+      "y": 90
+    },
+    "facing=east,style=integrateddynamics": {
+      "model": "patternconverter:block/converter_integrated_dynamics",
+      "y": 90
+    },
+    "facing=east,style=refinedstorage": {
+      "model": "patternconverter:block/converter_refined_storage",
+      "y": 90
+    },
+    "facing=north,style=ae2": {
+      "model": "patternconverter:block/converter_ae2"
+    },
+    "facing=north,style=integrateddynamics": {
+      "model": "patternconverter:block/converter_integrated_dynamics"
+    },
+    "facing=north,style=refinedstorage": {
+      "model": "patternconverter:block/converter_refined_storage"
+    },
+    "facing=south,style=ae2": {
+      "model": "patternconverter:block/converter_ae2",
+      "y": 180
+    },
+    "facing=south,style=integrateddynamics": {
+      "model": "patternconverter:block/converter_integrated_dynamics",
+      "y": 180
+    },
+    "facing=south,style=refinedstorage": {
+      "model": "patternconverter:block/converter_refined_storage",
+      "y": 180
+    },
+    "facing=up,style=ae2": {
+      "model": "patternconverter:block/converter_ae2",
+      "x": 270
+    },
+    "facing=up,style=integrateddynamics": {
+      "model": "patternconverter:block/converter_integrated_dynamics",
+      "x": 270
+    },
+    "facing=up,style=refinedstorage": {
+      "model": "patternconverter:block/converter_refined_storage",
+      "x": 270
+    },
+    "facing=west,style=ae2": {
+      "model": "patternconverter:block/converter_ae2",
+      "y": 270
+    },
+    "facing=west,style=integrateddynamics": {
+      "model": "patternconverter:block/converter_integrated_dynamics",
+      "y": 270
+    },
+    "facing=west,style=refinedstorage": {
+      "model": "patternconverter:block/converter_refined_storage",
+      "y": 270
+    }
+  }
+}

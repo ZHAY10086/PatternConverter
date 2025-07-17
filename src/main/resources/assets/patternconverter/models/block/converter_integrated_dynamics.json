@@ -1,0 +1,23 @@
+{
+	"parent": "block/cube",
+	"textures": {
+		"down": "integrateddynamics:block/variablestore_top",
+		"particle": "integrateddynamics:block/logic_programmer_top",
+		"north": "patternconverter:block/converter_id_front",
+		"west": "integrateddynamics:block/logic_programmer_side"
+	},
+	"elements": [
+		{
+			"from": [0, 0, 0],
+			"to": [16, 16, 16],
+			"faces": {
+				"north": {"uv": [0, 0, 16, 16], "texture": "#north", "cullface": "north"},
+				"east": {"uv": [0, 0, 16, 16], "rotation": 90, "texture": "#west", "cullface": "east"},
+				"south": {"uv": [0, 0, 16, 16], "texture": "#down", "cullface": "south"},
+				"west": {"uv": [0, 0, 16, 16], "rotation": 270, "texture": "#west", "cullface": "west"},
+				"up": {"uv": [0, 0, 16, 16], "texture": "#west", "cullface": "up"},
+				"down": {"uv": [0, 0, 16, 16], "rotation": 180, "texture": "#west", "cullface": "down"}
+			}
+		}
+	]
+}
