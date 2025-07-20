@@ -199,6 +199,11 @@ public class ConverterBlockEntity extends BaseBlockEntity {
 			return null;
 		}
 
+		if(side == null) {
+			// If the side is null, we return the accessible inventories
+			return converter.inventories.accessibleInventories;
+		}
+
 		switch(side) {
 			case UP -> {
 				return converter.inventories.inputInventories;

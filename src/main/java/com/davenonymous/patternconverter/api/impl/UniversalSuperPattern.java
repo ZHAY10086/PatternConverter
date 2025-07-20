@@ -355,7 +355,7 @@ public class UniversalSuperPattern extends AbstractUniversalPattern implements I
 
 	@Override
 	public SingleRecipeInput createCuttingInput() {
-		return new SingleRecipeInput(shapedInputUniversalItems.get(0).primary());
+		return new SingleRecipeInput(shapedInputUniversalItems.getOrDefault(0, UniversalItemIngredient.EMPTY).primary());
 	}
 
 	@Override
