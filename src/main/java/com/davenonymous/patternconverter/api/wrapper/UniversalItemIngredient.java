@@ -8,7 +8,7 @@ public class UniversalItemIngredient {
 
 	ItemStack stack = ItemStack.EMPTY;
 	Ingredient ingredient = Ingredient.EMPTY;
-	TagIngredient tagIngredient = TagIngredient.EMPTY;
+	ItemTagIngredient itemTagIngredient = ItemTagIngredient.EMPTY;
 
 	public UniversalItemIngredient(Ingredient ingredient) {
 		this.ingredient = ingredient;
@@ -18,12 +18,12 @@ public class UniversalItemIngredient {
 		this.stack = stack;
 	}
 
-	public UniversalItemIngredient(TagIngredient tagIngredient) {
-		this.tagIngredient = tagIngredient;
+	public UniversalItemIngredient(ItemTagIngredient itemTagIngredient) {
+		this.itemTagIngredient = itemTagIngredient;
 	}
 
 	public boolean isEmpty() {
-		return this == EMPTY || stack.isEmpty() && ingredient.isEmpty() && tagIngredient.isEmpty();
+		return this == EMPTY || stack.isEmpty() && ingredient.isEmpty() && itemTagIngredient.isEmpty();
 	}
 
 	public boolean isStack() {
@@ -35,7 +35,7 @@ public class UniversalItemIngredient {
 	}
 
 	public boolean isTagIngredient() {
-		return !tagIngredient.isEmpty();
+		return !itemTagIngredient.isEmpty();
 	}
 
 	public Ingredient ingredient() {
@@ -46,8 +46,8 @@ public class UniversalItemIngredient {
 		return stack;
 	}
 
-	public TagIngredient tagIngredient() {
-		return tagIngredient;
+	public ItemTagIngredient tagIngredient() {
+		return itemTagIngredient;
 	}
 
 	public ItemStack primary() {
@@ -55,8 +55,8 @@ public class UniversalItemIngredient {
 			return stack.copy();
 		} else if(!ingredient.isEmpty()) {
 			return ingredient.getItems()[0].copy();
-		} else if(!tagIngredient.isEmpty()) {
-			return tagIngredient.representativeItem.copy();
+		} else if(!itemTagIngredient.isEmpty()) {
+			return itemTagIngredient.representativeItem.copy();
 		}
 
 		return ItemStack.EMPTY;

@@ -12,6 +12,9 @@ import com.davenonymous.patternconverter.api.types.IUniversalCraftingPattern;
 import com.davenonymous.patternconverter.api.types.IUniversalProcessingPattern;
 import com.davenonymous.patternconverter.api.types.IUniversalSmithingPattern;
 import com.davenonymous.patternconverter.api.types.IUniversalStonecutterPattern;
+import com.davenonymous.patternconverter.api.wrapper.FluidTagIngredient;
+import com.davenonymous.patternconverter.api.wrapper.ItemTagIngredient;
+import com.davenonymous.patternconverter.api.wrapper.UniversalFluidIngredient;
 import com.davenonymous.patternconverter.api.wrapper.UniversalItemIngredient;
 import com.refinedmods.refinedstorage.api.autocrafting.Ingredient;
 import com.refinedmods.refinedstorage.api.autocrafting.Pattern;
@@ -81,7 +84,7 @@ public class RefinedStorage implements IPatternConverter {
 		CraftingInput craftingInput = craftingState.input().input();
 
 		var result = new UniversalCraftingPattern(craftingInput);
-		result.setGenerallyFuzzy(craftingState.fuzzyMode());
+		result.setAllItemsFuzzy(craftingState.fuzzyMode());
 		result.setPatternHeight(craftingInput.height());
 		result.setPatternWidth(craftingInput.width());
 
@@ -124,10 +127,23 @@ public class RefinedStorage implements IPatternConverter {
 			long amount = processingIngredient.input().amount();
 			if(resourceKey instanceof ItemResource itemResource) {
 				ItemStack itemStack = itemResource.toItemStack(amount);
-				result.addInput(itemStack);
+				if(processingIngredient.allowedAlternativeIds().isEmpty()) {
+					result.addInput(itemStack);
+					continue;
+				}
+				ItemTagIngredient tagIngredient = new ItemTagIngredient(itemStack, processingIngredient.allowedAlternativeIds().stream().map(ResourceLocation::toString).toList());
+				tagIngredient.setAmount(amount);
+				result.addInput(tagIngredient);
 			} else if(resourceKey instanceof FluidResource fluidResource) {
 				FluidStack fluidStack = new FluidStack(fluidResource.fluid(), (int)amount);
-				result.addInput(fluidStack);
+				if(processingIngredient.allowedAlternativeIds().isEmpty()) {
+					result.addInput(fluidStack);
+					continue;
+				}
+
+				FluidTagIngredient tagIngredient = new FluidTagIngredient(fluidStack, processingIngredient.allowedAlternativeIds().stream().map(ResourceLocation::toString).toList());
+				tagIngredient.setAmount(amount);
+				result.addInput(tagIngredient);
 			}
 		}
 
@@ -217,6 +233,20 @@ public class RefinedStorage implements IPatternConverter {
 			}
 		}
 
+		for(UniversalFluidIngredient input : pattern.inputUniversalFluids()) {
+			if(input.isStack()) {
+				var stack = input.stack();
+				var resourceAmount = new ResourceAmount(new FluidResource(stack.getFluid()), stack.getAmount());
+				ingredients.add(Optional.of(new ProcessingPatternState.ProcessingIngredient(resourceAmount, List.of())));
+			} else if(input.isTagIngredient()) {
+				var tagIngredient = input.tagIngredient();
+				var resourceAmount = new ResourceAmount(new FluidResource(input.primary().getFluid()), tagIngredient.amount);
+				ingredients.add(Optional.of(new ProcessingPatternState.ProcessingIngredient(resourceAmount, tagIngredient.tags.stream().map(ResourceLocation::parse).toList())));
+			} else {
+				ingredients.add(Optional.empty());
+			}
+		}
+
 		List<Optional<ResourceAmount>> outputs = new ArrayList<>();
 		for(UniversalItemIngredient output : pattern.outputIngredients()) {
 			var outputItem = output.primary();
@@ -241,7 +271,7 @@ public class RefinedStorage implements IPatternConverter {
 	@Override
 	public ItemStack writePattern(IUniversalCraftingPattern pattern, Level level) {
 		ItemStack unencodedPattern = PatternGridBlockEntity.createPatternStack(PatternType.CRAFTING);
-		CraftingPatternState state = new CraftingPatternState(pattern.isGenerallyFuzzy(), new CraftingInput.Positioned(pattern.createCraftingInput(), 0, 0));
+		CraftingPatternState state = new CraftingPatternState(pattern.areAllItemsFuzzy(), new CraftingInput.Positioned(pattern.createCraftingInput(), 0, 0));
 		unencodedPattern.set(DataComponents.INSTANCE.getCraftingPatternState(), state);
 		return unencodedPattern.copy();
 	}

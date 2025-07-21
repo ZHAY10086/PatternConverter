@@ -50,9 +50,10 @@ public class ConverterBlockEntity extends BaseBlockEntity {
 			if(getBlockState().getValue(ConverterBlock.STYLE) != style) {
 				var newState = getBlockState().setValue(ConverterBlock.STYLE, style);
 				level.setBlockAndUpdate(getBlockPos(), newState);
-				notifyClients(false);
 			}
 		}
+
+		notifyClients(false);
 	}
 
 	public ConverterBlockEntity setRedstoneMode(RedstoneMode redstoneMode) {

@@ -82,9 +82,8 @@ public class AppliedEnergistics2 implements IPatternConverter {
 		var craftingPattern = pattern.getDefinition().get(AEComponents.ENCODED_CRAFTING_PATTERN);
 		if(craftingPattern != null) {
 			var result = new UniversalCraftingPattern();
-			if(craftingPattern.canSubstitute() || craftingPattern.canSubstituteFluids()) {
-				result.setGenerallyFuzzy(true);
-			}
+			result.setAllItemsFuzzy(craftingPattern.canSubstitute());
+			result.setAllFluidsFuzzy(craftingPattern.canSubstituteFluids());
 
 			for(int slot = 0; slot < craftingPattern.inputs().size(); slot++) {
 				ItemStack itemStack = craftingPattern.inputs().get(slot);
@@ -112,7 +111,7 @@ public class AppliedEnergistics2 implements IPatternConverter {
 				smithingPattern.addition().copy()
 			);
 			if(smithingPattern.canSubstitute()) {
-				result.setGenerallyFuzzy(true);
+				result.setAllItemsFuzzy(true);
 			}
 
 			Optional<RecipeHolder<?>> recipe = level.getRecipeManager().byKey(smithingPattern.recipeId());
@@ -128,7 +127,7 @@ public class AppliedEnergistics2 implements IPatternConverter {
 		if(stonecuttingPattern != null) {
 			var result = new UniversalStonecutterPattern(stonecuttingPattern.input());
 			if(stonecuttingPattern.canSubstitute()) {
-				result.setGenerallyFuzzy(true);
+				result.setAllItemsFuzzy(true);
 			}
 
 			Optional<RecipeHolder<?>> recipe = level.getRecipeManager().byKey(stonecuttingPattern.recipeId());
@@ -221,7 +220,7 @@ public class AppliedEnergistics2 implements IPatternConverter {
 		return PatternDetailsHelper.encodeCraftingPattern(
 			pattern.craftingRecipe(), pattern.getAs3by3().stream().map(UniversalItemIngredient::primary).toArray(ItemStack[]::new),
 			pattern.getPrimaryOutputStack(),
-			pattern.isGenerallyFuzzy(), pattern.isGenerallyFuzzy());
+			pattern.areAllItemsFuzzy(), pattern.areAllFluidsFuzzy());
 	}
 
 	@Override
@@ -233,7 +232,7 @@ public class AppliedEnergistics2 implements IPatternConverter {
 		return PatternDetailsHelper.encodeStonecuttingPattern(
 			pattern.stoneCutterRecipe(), AEItemKey.of(pattern.input().primary()),
 			AEItemKey.of(pattern.getPrimaryOutputStack()),
-			pattern.isGenerallyFuzzy());
+			pattern.areAllItemsFuzzy());
 	}
 
 	@Override
@@ -248,6 +247,6 @@ public class AppliedEnergistics2 implements IPatternConverter {
 			AEItemKey.of(pattern.getBase().primary()),
 			AEItemKey.of(pattern.getAddition().primary()),
 			AEItemKey.of(pattern.getPrimaryOutputStack()),
-			pattern.isGenerallyFuzzy());
+			pattern.areAllItemsFuzzy());
 	}
 }

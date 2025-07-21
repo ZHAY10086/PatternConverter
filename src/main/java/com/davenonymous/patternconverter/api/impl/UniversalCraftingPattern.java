@@ -2,7 +2,7 @@ package com.davenonymous.patternconverter.api.impl;
 
 import com.davenonymous.patternconverter.api.AbstractUniversalPattern;
 import com.davenonymous.patternconverter.api.types.IUniversalCraftingPattern;
-import com.davenonymous.patternconverter.api.wrapper.TagIngredient;
+import com.davenonymous.patternconverter.api.wrapper.ItemTagIngredient;
 import com.davenonymous.patternconverter.api.wrapper.UniversalItemIngredient;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.*;
@@ -110,7 +110,7 @@ public class UniversalCraftingPattern extends AbstractUniversalPattern implement
 	}
 
 	@Override
-	public void setInputTags(List<TagIngredient> tags) {
+	public void setInputTags(List<ItemTagIngredient> tags) {
 		if(tags.isEmpty()) {
 			return;
 		}

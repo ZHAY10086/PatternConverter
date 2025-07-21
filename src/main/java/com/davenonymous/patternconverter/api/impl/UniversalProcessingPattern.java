@@ -2,6 +2,7 @@ package com.davenonymous.patternconverter.api.impl;
 
 import com.davenonymous.patternconverter.api.AbstractUniversalPattern;
 import com.davenonymous.patternconverter.api.types.IUniversalProcessingPattern;
+import com.davenonymous.patternconverter.api.wrapper.UniversalFluidIngredient;
 import com.davenonymous.patternconverter.api.wrapper.UniversalItemIngredient;
 import net.neoforged.neoforge.fluids.FluidStack;
 
@@ -15,6 +16,7 @@ public class UniversalProcessingPattern extends AbstractUniversalPattern impleme
 	private List<FluidStack> inputFluids = new ArrayList<>();
 	private List<FluidStack> outputFluids = new ArrayList<>();
 	private List<UniversalItemIngredient> inputUniversalItems = new ArrayList<>();
+	private List<UniversalFluidIngredient> inputUniversalFluids = new ArrayList<>();
 
 	public UniversalProcessingPattern() {
 	}
@@ -25,6 +27,7 @@ public class UniversalProcessingPattern extends AbstractUniversalPattern impleme
 		this.inputFluids.addAll(superPattern.inputFluids());
 		this.outputFluids.addAll(superPattern.outputFluids());
 		this.inputUniversalItems.addAll(superPattern.shapedInputIngredients().values().stream().filter(Predicate.not(UniversalItemIngredient::isEmpty)).toList());
+		this.inputUniversalFluids.addAll(superPattern.inputUniversalFluids().stream().filter(Predicate.not(UniversalFluidIngredient::isEmpty)).toList());
 		this.outputIngredients.addAll(superPattern.outputIngredients());
 	}
 
@@ -54,6 +57,11 @@ public class UniversalProcessingPattern extends AbstractUniversalPattern impleme
 	}
 
 	@Override
+	public List<UniversalFluidIngredient> inputUniversalFluids() {
+		return inputUniversalFluids;
+	}
+
+	@Override
 	public void addInput(FluidStack fluid) {
 		inputFluids.add(fluid.copy());
 	}
@@ -76,6 +84,11 @@ public class UniversalProcessingPattern extends AbstractUniversalPattern impleme
 	@Override
 	public void addInput(UniversalItemIngredient ingredient) {
 		inputUniversalItems.add(ingredient);
+	}
+
+	@Override
+	public void addInput(UniversalFluidIngredient ingredient) {
+		inputUniversalFluids.add(ingredient);
 	}
 
 }

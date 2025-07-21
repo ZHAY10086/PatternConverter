@@ -9,7 +9,8 @@ import com.davenonymous.patternconverter.api.types.IUniversalCraftingPattern;
 import com.davenonymous.patternconverter.api.types.IUniversalProcessingPattern;
 import com.davenonymous.patternconverter.api.types.IUniversalSmithingPattern;
 import com.davenonymous.patternconverter.api.types.IUniversalStonecutterPattern;
-import com.davenonymous.patternconverter.api.wrapper.TagIngredient;
+import com.davenonymous.patternconverter.api.wrapper.ItemTagIngredient;
+import com.davenonymous.patternconverter.api.wrapper.TagMatchingMode;
 import com.davenonymous.patternconverter.api.wrapper.UniversalItemIngredient;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceKey;
@@ -120,23 +121,23 @@ public class IntegratedDynamics implements IPatternConverter {
 			for(IPrototypedIngredientAlternatives<?, ?> componentPrototype : recipe.getInputs(component)) {
 				if(componentPrototype instanceof PrototypedIngredientAlternativesItemStackTag itemStackTagComponentPrototype) {
 					List<String> tags = itemStackTagComponentPrototype.getKeys();
-					TagIngredient.Mode mode = TagIngredient.Mode.ANY;
+					TagMatchingMode mode = TagMatchingMode.ANY;
 					if(itemStackTagComponentPrototype.getMatchCondition() == tags.size()) {
-						mode = TagIngredient.Mode.ALL;
+						mode = TagMatchingMode.ALL;
 					} else if(itemStackTagComponentPrototype.getMatchCondition() <= 0) {
-						mode = TagIngredient.Mode.NONE;
+						mode = TagMatchingMode.NONE;
 					}
-					TagIngredient tagIngredient = new TagIngredient(mode, tags);
+					ItemTagIngredient itemTagIngredient = new ItemTagIngredient(mode, tags);
 					if(!itemStackTagComponentPrototype.getAlternatives().isEmpty()) {
 						var firstAlternative = itemStackTagComponentPrototype.getAlternatives().stream().findFirst();
 						if(firstAlternative.isPresent()) {
 							var representativeItem = firstAlternative.get().getPrototype();
 							if(representativeItem instanceof ItemStack representativeStack) {
-								tagIngredient.setRepresentativeItem(representativeStack);
+								itemTagIngredient.setRepresentativeItem(representativeStack);
 							}
 						}
 					}
-					result.addInput(slot++, tagIngredient);
+					result.addInput(slot++, itemTagIngredient);
 					continue;
 				}
 
@@ -191,7 +192,7 @@ public class IntegratedDynamics implements IPatternConverter {
 		List<IPrototypedIngredientAlternatives<?, ?>> inputList = inputs.computeIfAbsent(IngredientComponent.ITEMSTACK, k -> new ArrayList<>());
 		for(UniversalItemIngredient itemIngredient : pattern.inputIngredients()) {
 			if(itemIngredient.isTagIngredient()) {
-				TagIngredient inputTag = itemIngredient.tagIngredient();
+				ItemTagIngredient inputTag = itemIngredient.tagIngredient();
 				var tagAlternatives = new PrototypedIngredientAlternativesItemStackTag(inputTag.tags, getMatchCondition(inputTag.mode, inputTag.tags), inputTag.amount);
 				inputList.add(tagAlternatives);
 			} else {
@@ -207,7 +208,7 @@ public class IntegratedDynamics implements IPatternConverter {
 
 		for(UniversalItemIngredient outputItemIngredient : pattern.outputIngredients()) {
 			if(outputItemIngredient.isTagIngredient()) {
-				TagIngredient outputTag = outputItemIngredient.tagIngredient();
+				ItemTagIngredient outputTag = outputItemIngredient.tagIngredient();
 				var tagAlternatives = new PrototypedIngredientAlternativesItemStackTag(outputTag.tags, getMatchCondition(outputTag.mode, outputTag.tags), outputTag.amount);
 				List<IPrototypedIngredientAlternatives<?, ?>> outputList = (List<IPrototypedIngredientAlternatives<?, ?>>) outputs.computeIfAbsent(IngredientComponent.ITEMSTACK, k -> new ArrayList<>());
 				outputList.add(tagAlternatives);
@@ -250,7 +251,7 @@ public class IntegratedDynamics implements IPatternConverter {
 				var itemAlternatives = new PrototypedIngredientAlternativesList(List.of(new PrototypedIngredient(IngredientComponent.ITEMSTACK, ItemStack.EMPTY, 1)));
 				inputList.add(itemAlternatives);
 			} else if(itemIngredient.isTagIngredient()) {
-				TagIngredient inputTag = itemIngredient.tagIngredient();
+				ItemTagIngredient inputTag = itemIngredient.tagIngredient();
 				var tagAlternatives = new PrototypedIngredientAlternativesItemStackTag(inputTag.tags, getMatchCondition(inputTag.mode, inputTag.tags), inputTag.amount);
 				inputList.add(tagAlternatives);
 			} else {
@@ -270,7 +271,7 @@ public class IntegratedDynamics implements IPatternConverter {
 
 		for(UniversalItemIngredient outputItemIngredient : outputIngredients) {
 			if(outputItemIngredient.isTagIngredient()) {
-				TagIngredient outputTag = outputItemIngredient.tagIngredient();
+				ItemTagIngredient outputTag = outputItemIngredient.tagIngredient();
 				var tagAlternatives = new PrototypedIngredientAlternativesItemStackTag(outputTag.tags, getMatchCondition(outputTag.mode, outputTag.tags), outputTag.amount);
 				List<IPrototypedIngredientAlternatives<?, ?>> outputList = (List<IPrototypedIngredientAlternatives<?, ?>>) outputs.computeIfAbsent(IngredientComponent.ITEMSTACK, k -> new ArrayList<>());
 				outputList.add(tagAlternatives);
@@ -333,12 +334,12 @@ public class IntegratedDynamics implements IPatternConverter {
 		return writePattern(recipeDefinition, level);
 	}
 
-	private int getMatchCondition(TagIngredient.Mode mode, List<String> tags) {
-		if (mode == TagIngredient.Mode.NONE) {
+	private int getMatchCondition(TagMatchingMode mode, List<String> tags) {
+		if (mode == TagMatchingMode.NONE) {
 			return 0;
-		} else if (mode == TagIngredient.Mode.ANY) {
+		} else if (mode == TagMatchingMode.ANY) {
 			return 1;
-		} else if (mode == TagIngredient.Mode.ALL) {
+		} else if (mode == TagMatchingMode.ALL) {
 			return tags.size();
 		}
 		return -1; // Should not happen

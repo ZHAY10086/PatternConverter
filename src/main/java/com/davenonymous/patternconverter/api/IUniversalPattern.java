@@ -1,6 +1,6 @@
 package com.davenonymous.patternconverter.api;
 
-import com.davenonymous.patternconverter.api.wrapper.TagIngredient;
+import com.davenonymous.patternconverter.api.wrapper.ItemTagIngredient;
 import com.davenonymous.patternconverter.api.wrapper.UniversalItemIngredient;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
@@ -18,7 +18,7 @@ public interface IUniversalPattern {
 		addOutput(new UniversalItemIngredient(output));
 	}
 
-	default void addOutput(TagIngredient output) {
+	default void addOutput(ItemTagIngredient output) {
 		if(output.isEmpty()) {
 			return;
 		}
@@ -39,7 +39,11 @@ public interface IUniversalPattern {
 		return !outputIngredients().isEmpty();
 	}
 
-	default boolean isGenerallyFuzzy() {
+	default boolean areAllItemsFuzzy() {
+		return false;
+	}
+
+	default boolean areAllFluidsFuzzy() {
 		return false;
 	}
 

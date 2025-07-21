@@ -6,55 +6,50 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class TagIngredient {
-	public enum Mode {
-		NONE,
-		ANY,
-		ALL
-	}
+public class ItemTagIngredient {
 
 	public ItemStack representativeItem = ItemStack.EMPTY;
 	public List<String> tags = new ArrayList<>();
-	public Mode mode;
+	public TagMatchingMode mode;
 	public long amount = 1;
 
-	public TagIngredient(ItemStack stack, List<String> alternativeTags) {
-		this.mode = Mode.ANY;
+	public ItemTagIngredient(ItemStack stack, List<String> alternativeTags) {
+		this.mode = TagMatchingMode.ANY;
 		this.representativeItem = stack;
 		this.tags.addAll(alternativeTags);
 	}
 
-	public TagIngredient(ItemStack stack, List<String> alternativeTags, Mode mode) {
+	public ItemTagIngredient(ItemStack stack, List<String> alternativeTags, TagMatchingMode mode) {
 		this.mode = mode;
 		this.representativeItem = stack;
 		this.tags.addAll(alternativeTags);
 	}
 
-	public TagIngredient(Mode mode, List<String> tags) {
+	public ItemTagIngredient(TagMatchingMode mode, List<String> tags) {
 		this.mode = mode;
 		this.tags = tags;
 	}
 
-	public TagIngredient(Mode mode, String... tags) {
+	public ItemTagIngredient(TagMatchingMode mode, String... tags) {
 		this.mode = mode;
 		this.tags.addAll(Arrays.asList(tags));
 	}
 
-	public TagIngredient(String... tags) {
-		this(Mode.ANY, tags);
+	public ItemTagIngredient(String... tags) {
+		this(TagMatchingMode.ANY, tags);
 	}
 
-	public TagIngredient setAmount(long amount) {
+	public ItemTagIngredient setAmount(long amount) {
 		this.amount = amount;
 		return this;
 	}
 
-	public TagIngredient setMode(Mode mode) {
+	public ItemTagIngredient setMode(TagMatchingMode mode) {
 		this.mode = mode;
 		return this;
 	}
 
-	public TagIngredient setRepresentativeItem(ItemStack representativeItem) {
+	public ItemTagIngredient setRepresentativeItem(ItemStack representativeItem) {
 		this.representativeItem = representativeItem;
 		return this;
 	}
@@ -63,5 +58,5 @@ public class TagIngredient {
 		return representativeItem.isEmpty() || amount <= 0 || tags.isEmpty();
 	}
 
-	public static TagIngredient EMPTY = new TagIngredient();
+	public static ItemTagIngredient EMPTY = new ItemTagIngredient();
 }

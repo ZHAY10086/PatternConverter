@@ -1,6 +1,6 @@
 package com.davenonymous.patternconverter.api;
 
-import com.davenonymous.patternconverter.api.wrapper.TagIngredient;
+import com.davenonymous.patternconverter.api.wrapper.ItemTagIngredient;
 import com.davenonymous.patternconverter.api.wrapper.UniversalItemIngredient;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
@@ -10,17 +10,27 @@ import java.util.List;
 
 public class AbstractUniversalPattern implements IUniversalPattern {
 	protected List<UniversalItemIngredient> outputIngredients = new ArrayList<>();
-	protected boolean isGenerallyFuzzy = false;
+	protected boolean allItemsFuzzy = false;
+	protected boolean allFluidsFuzzy = false;
 	protected boolean hasOutput = false;
 	protected boolean hasInput = false;
 
-	public AbstractUniversalPattern setGenerallyFuzzy(boolean generallyFuzzy) {
-		isGenerallyFuzzy = generallyFuzzy;
+	public AbstractUniversalPattern setAllItemsFuzzy(boolean allItemsFuzzy) {
+		this.allItemsFuzzy = allItemsFuzzy;
 		return this;
 	}
 
-	public boolean isGenerallyFuzzy() {
-		return isGenerallyFuzzy;
+	public boolean areAllItemsFuzzy() {
+		return allItemsFuzzy;
+	}
+
+	public AbstractUniversalPattern setAllFluidsFuzzy(boolean allFluidsFuzzy) {
+		this.allFluidsFuzzy = allFluidsFuzzy;
+		return this;
+	}
+
+	public boolean areAllFluidsFuzzy() {
+		return allFluidsFuzzy;
 	}
 
 	@Override
@@ -61,7 +71,7 @@ public class AbstractUniversalPattern implements IUniversalPattern {
 	}
 
 	@Override
-	public void addOutput(TagIngredient output) {
+	public void addOutput(ItemTagIngredient output) {
 		if(output.isEmpty()) {
 			return;
 		}

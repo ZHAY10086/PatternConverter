@@ -5,7 +5,8 @@ import com.davenonymous.patternconverter.api.types.IUniversalCraftingPattern;
 import com.davenonymous.patternconverter.api.types.IUniversalProcessingPattern;
 import com.davenonymous.patternconverter.api.types.IUniversalSmithingPattern;
 import com.davenonymous.patternconverter.api.types.IUniversalStonecutterPattern;
-import com.davenonymous.patternconverter.api.wrapper.TagIngredient;
+import com.davenonymous.patternconverter.api.wrapper.ItemTagIngredient;
+import com.davenonymous.patternconverter.api.wrapper.UniversalFluidIngredient;
 import com.davenonymous.patternconverter.api.wrapper.UniversalItemIngredient;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.*;
@@ -27,6 +28,7 @@ public class UniversalSuperPattern extends AbstractUniversalPattern implements I
 	private List<FluidStack> inputFluids = new ArrayList<>();
 	private List<FluidStack> outputFluids = new ArrayList<>();
 	private List<UniversalItemIngredient> inputUniversalItems = new ArrayList<>();
+	private List<UniversalFluidIngredient> inputUniversalFluids = new ArrayList<>();
 
 	// Smithing values
 	private RecipeHolder<SmithingRecipe> smithingRecipe = null;
@@ -164,7 +166,7 @@ public class UniversalSuperPattern extends AbstractUniversalPattern implements I
 	}
 
 	@Override
-	public void setInputTags(List<TagIngredient> tags) {
+	public void setInputTags(List<ItemTagIngredient> tags) {
 		if(tags.isEmpty()) {
 			return;
 		}
@@ -294,6 +296,11 @@ public class UniversalSuperPattern extends AbstractUniversalPattern implements I
 	}
 
 	@Override
+	public List<UniversalFluidIngredient> inputUniversalFluids() {
+		return inputUniversalFluids;
+	}
+
+	@Override
 	public void addInput(FluidStack fluid) {
 		inputFluids.add(fluid.copy());
 	}
@@ -316,6 +323,11 @@ public class UniversalSuperPattern extends AbstractUniversalPattern implements I
 	@Override
 	public void addInput(UniversalItemIngredient ingredient) {
 		inputUniversalItems.add(ingredient);
+	}
+
+	@Override
+	public void addInput(UniversalFluidIngredient ingredient) {
+		inputUniversalFluids.add(ingredient);
 	}
 
 	@Override
