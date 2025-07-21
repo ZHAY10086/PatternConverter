@@ -162,8 +162,11 @@ public class UniversalCraftingPattern extends AbstractUniversalPattern implement
 			int col = slot % 3;
 			int row = slot / 3;
 			int transformedSlot = slot;
-			if(patternWidth < 3) {
+			if(patternWidth == 2) {
 				transformedSlot = slot - row;
+			}
+			if(patternWidth == 1) {
+				transformedSlot = slot - (2*row);
 			}
 
 			if(col >= patternWidth || row >= patternHeight) {
