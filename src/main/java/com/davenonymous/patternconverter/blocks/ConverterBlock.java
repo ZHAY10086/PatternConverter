@@ -1,5 +1,6 @@
 package com.davenonymous.patternconverter.blocks;
 
+import com.davenonymous.patternconverter.datacomponents.ConverterStyleDataComponent;
 import com.davenonymous.patternconverter.mods.ConverterStyle;
 import com.davenonymous.patternconverter.setup.ModBlocks;
 import com.davenonymous.patternconverter.setup.ModDataComponents;
@@ -125,12 +126,13 @@ public class ConverterBlock extends Block implements EntityBlock {
 			return super.getCloneItemStack(state, target, level, pos, player);
 		}
 
-		ItemStack clone = new ItemStack(this, 1);
-		DataComponentMap components = converter.collectComponents();
-		if(components.has(ModDataComponents.CONVERTER_STYLE_COMPONENT.get())) {
-			clone.set(ModDataComponents.CONVERTER_STYLE_COMPONENT.get(), components.get(ModDataComponents.CONVERTER_STYLE_COMPONENT.get()));
+		if(!state.hasProperty(STYLE)) {
+			return super.getCloneItemStack(state, target, level, pos, player);
 		}
 
+		ConverterStyle style = state.getValue(STYLE);
+		ItemStack clone = new ItemStack(this, 1);
+		clone.set(ModDataComponents.CONVERTER_STYLE_COMPONENT.get(), new ConverterStyleDataComponent(style));
 		return clone;
 	}
 
