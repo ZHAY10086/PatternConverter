@@ -187,12 +187,18 @@ neoForge.ideSyncTask generateModMetadata
 publishing {
     publications {
         register('mavenJava', MavenPublication) {
+            artifactId = mod_id
             from components.java
         }
     }
     repositories {
         maven {
-            url "file://${project.projectDir}/repo"
+            name = "GitHubPackages"
+            url = uri("https://maven.pkg.github.com/davenonymous/patternconverter")
+            credentials {
+                username = project.ext.ghUsername
+                password = project.ext.ghToken
+            }
         }
     }
 }

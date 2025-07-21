@@ -36,3 +36,9 @@ jobs:
         with:
           if-no-files-found: error
           path: build/libs/*
+
+      - name: Publish to GitHub Packages
+        run: ./gradlew publish
+        env:
+          USERNAME: ${{ github.actor }}
+          TOKEN: ${{ secrets.GITHUB_TOKEN }}
