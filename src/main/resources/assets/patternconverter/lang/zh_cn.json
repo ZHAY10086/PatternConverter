@@ -1,0 +1,14 @@
+{
+	"block.patternconverter.converter": "样板转换器",
+	"item.patternconverter.converter": "样板转换器",
+	"container.patternconverter.converter": "样板转换器",
+
+	"patternconverter.pattern_mode.keep_original": "保留原始样板",
+	"patternconverter.pattern_mode.clear_original": "清空原始样板",
+
+	"patternconverter.redstone_mode.ignore_power": "忽略红石信号",
+	"patternconverter.redstone_mode.stop_on_power": "接收到红石信号时停止运行",
+	"patternconverter.redstone_mode.require_power": "仅在接收到红石信号时运行",
+	"patternconverter.redstone_mode.redstone_active": "当前状态：已启用",
+	"patternconverter.redstone_mode.redstone_inactive": "当前状态：已禁用"
+}
